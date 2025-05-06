@@ -133,9 +133,9 @@ This will use the default URL format. You can also specify a custom URL if neede
 
 ```bash
 curl -X POST \
-  http://localhost:3000/card/personalize \
+  http://localhost:3002/card/personalize \
   -H 'Content-Type: application/json' \
-  -d '{"url": "http://custom-domain.com/verify?uid={uid}&counter={counter}&signature={cmac}"}'
+  -d '{"url": "https://sdm.nfcdeveloper.com/tagpt?uid={uid}&ctr={counter}&cmac={cmac}"}'
 ```
 
 ## Security Features
