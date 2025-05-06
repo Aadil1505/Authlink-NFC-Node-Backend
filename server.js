@@ -27,6 +27,16 @@ const PORT = process.env.PORT || 3000;
 const { MASTER_KEY_HEX, CL_READER } = process.env;
 let masterKey = Buffer.from(MASTER_KEY_HEX || '', 'hex');
 
+// Format UID to uppercase
+function formatUid(uid) {
+  if (Buffer.isBuffer(uid)) {
+    return uid.toString('hex').toUpperCase();
+  } else if (typeof uid === 'string') {
+    return uid.toUpperCase();
+  }
+  return '';
+}
+
 // Constants
 const HEX = 0x10;
 const ndefAid = Buffer.from("D2760000850101", "hex");
@@ -747,7 +757,7 @@ class NFCOperations {
 
       return {
         success: true,
-        uid: UID.toString('hex'),
+        uid: formatUid(UID),
         isFactory: factory,
         message: factory ? "Tag personalized with new keys and settings" : "Tag updated with new settings"
       };
@@ -782,7 +792,7 @@ app.get('/card/uid', async (req, res) => {
   try {
     const nfcOps = new NFCOperations(nfcReader);
     const uid = await nfcOps.getUid();
-    res.json({ uid: uid.toString('hex') });
+    res.json({ uid: formatUid(uid) });
   } catch (error) {
     console.error('Error reading UID:', error);
     res.status(500).json({ error: error.message });
