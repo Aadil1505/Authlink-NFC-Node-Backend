@@ -799,53 +799,6 @@ app.get('/card/uid', async (req, res) => {
   }
 });
 
-// Read NDEF data from card
-app.get('/card/ndef', async (req, res) => {
-  if (!isReaderReady) {
-    return res.status(503).json({ error: 'NFC reader not ready' });
-  }
-  
-  if (!currentCard) {
-    return res.status(404).json({ error: 'No card detected' });
-  }
-  
-  try {
-    const nfcOps = new NFCOperations(nfcReader);
-    const result = await nfcOps.readNdef();
-    res.json(result);
-  } catch (error) {
-    console.error('Error reading NDEF:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Write NDEF data to card
-app.post('/card/ndef', async (req, res) => {
-  if (!isReaderReady) {
-    return res.status(503).json({ error: 'NFC reader not ready' });
-  }
-  
-  if (!currentCard) {
-    return res.status(404).json({ error: 'No card detected' });
-  }
-  
-  const { url } = req.body;
-  
-  if (!url) {
-    return res.status(400).json({ error: 'URL is required' });
-  }
-  
-  try {
-    const { ndef } = generateNDEF(url);
-    const nfcOps = new NFCOperations(nfcReader);
-    const result = await nfcOps.writeNdef(ndef);
-    res.json(result);
-  } catch (error) {
-    console.error('Error writing NDEF:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // Get file settings
 app.get('/card/settings', async (req, res) => {
   if (!isReaderReady) {

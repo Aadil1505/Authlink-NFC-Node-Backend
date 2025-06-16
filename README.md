@@ -99,21 +99,6 @@ curl http://localhost:3000/status
 curl http://localhost:3000/card/uid
 ```
 
-### Read NDEF Data
-
-```bash
-curl http://localhost:3000/card/ndef
-```
-
-### Write NDEF Data
-
-```bash
-curl -X POST \
-  http://localhost:3000/card/ndef \
-  -H 'Content-Type: application/json' \
-  -d '{"url": "http://10.25.130.96:3000/verification?uid={uid}&ctr={counter}&cmac={cmac}"}'
-```
-
 ### Get File Settings
 
 ```bash
